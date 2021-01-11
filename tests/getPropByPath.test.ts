@@ -19,6 +19,11 @@ describe('getPropByPath', () => {
   it('a.b', () => {
     expect(getPropByPath(obj, 'a.b')).toEqual('bingo')
   })
+  it('a.', () => {
+    expect(getPropByPath(obj, 'a')).toEqual({
+      b: 'bingo'
+    })
+  })
   it('a', () => {
     expect(getPropByPath(obj, 'a')).toEqual({
       b: 'bingo'
@@ -29,5 +34,10 @@ describe('getPropByPath', () => {
   })
   it('undefined', () => {
     expect(getPropByPath(obj)).toEqual(obj)
+  })
+  it('*(', () => {
+    expect(() => {
+      getPropByPath(obj, '*(')
+    }).toThrow()
   })
 })

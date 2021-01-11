@@ -51,7 +51,7 @@ export default function parseQueryString (config?: string | {
     if (hash) {
       let result = qs.parse(hash, { ignoreQueryPrefix: true })
       if (search.includes('code=')) {
-        result.code = parseSearch().code || result.code //如果search中没拿到code 则沿用hash中的code
+        result.code = parseSearch().code //如果search中没拿到code 则沿用hash中的code
       }
       return result
     }
@@ -63,29 +63,29 @@ export default function parseQueryString (config?: string | {
     if (del) {
       //删除会导致页面刷新 需要判断存在才删除 避免死循环
       if ((mode === Mode.history || key === 'code') && search.includes(`${key}=`)) {
-        window.location.replace(window.location.href.replace(window.location.search, search.replace(`${key}=${obj[key] || ''}`, '')))
+        window.location.replace(window.location.href.replace(search, search.replace(`${key}=${obj[key]}`, '')))
       }
-      if ((mode !== Mode.history || key === 'code') && hash.includes(`${key}=`)) {
-        window.location.hash = hash.replace(`${key}=${obj[key] || ''}`, '')
+      if ((mode === Mode.hash || key === 'code') && hash.includes(`${key}=`)) {
+        window.location.hash = hash.replace(`${key}=${obj[key]}`, '')
       }
     }
     return obj[key] || ''
   } else {
     if (del) {
       let newHref
-      if (mode === Mode.hash && window.location.hash) {
+      if (mode === Mode.hash) {
         if (obj.code && search.includes('code=')) {
-          newHref = window.location.href.replace(window.location.hash, '')
+          newHref = window.location.href.replace(hash, '')
           newHref = newHref.replace('code=', '')
           window.location.replace(newHref)
         } else {
           window.location.hash = ''
         }
-      } else if (window.location.search) {
-        newHref = window.location.href.replace(window.location.search, '')
+      } else {
+        newHref = window.location.href.replace(search, '')
         window.location.replace(newHref)
       }
     }
-    return obj || {}
+    return obj
   }
 }

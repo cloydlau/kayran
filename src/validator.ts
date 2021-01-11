@@ -15,119 +15,15 @@ import notEmpty from './notEmpty'
 
 // 经度
 const lng = (value: string | number, options?) => {
-  const validateRange = value => {
-    value = Number(value)
-    if (value > 180 || value < -180) {
-      return '经度的范围为[-180, 180]'
-    }
-  }
-
   value = value.toString()
   let errInfo
-  if (isEmpty(value)) {
-    errInfo = '必填项'
-  } else if (/^-?\d+\.\d+$/.test(value)) {
-    errInfo = validateRange(value)
-    /*let decimalPart = value.toString().split('.')[1]
-    if (decimalPart.length > 6) {
-      errInfo = '最多6位小数'
-    }*/
-  } else if ((/^-?\d+$/).test(value)) {
-    errInfo = validateRange(value)
-  } else {
-    errInfo = '格式不正确'
-  }
-
-  return errInfo
-}
-
-// 纬度
-const lat = (value: string | number, options?) => {
-  const validateRange = value => {
-    value = Number(value)
-    if (value > 90 || value < -90) {
-      return '纬度的范围为[-90, 90]'
-    }
-  }
-
-  value = value.toString()
-  let errInfo = ''
-  if (isEmpty(value)) {
-    errInfo = '必填项'
-  } else if (/^-?\d+\.\d+$/.test(value)) {
-    errInfo = validateRange(value)
-    /*let decimalPart = value.toString().split('.')[1]
-    if (decimalPart.length > 6) {
-      errInfo = '最多6位小数'
-    }*/
-  } else if ((/^-?\d+$/).test(value)) {
-    errInfo = validateRange(value)
-  } else {
-    errInfo = '格式不正确'
-  }
-
-  return errInfo
-}
-
-// 手机
-const phone = (value: string | number, options?) => {
-  value = value.toString()
-  let errInfo = ''
-  if (notEmpty(value) && !/^1\d{10}$/.test(value)) {
-    errInfo = '格式不正确'
-  }
-
-  return errInfo
-}
-
-// 身份证
-const idCard = (value: string | number, options?) => {
-  value = value.toString()
-  let errInfo = ''
-
   if (notEmpty(value)) {
-    // 加权因子
-    let weight_factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
-    // 校验码
-    let check_code = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']
-
-    let code = value + ''
-    let last = value[17] //最后一位
-
-    let seventeen = code.substring(0, 17)
-
-    // ISO 7064:1983.MOD 11-2
-    // 判断最后一位校验码是否正确
-    let arr = seventeen.split('')
-    let len = arr.length
-    let num = 0
-    for (let i = 0; i < len; i++) {
-      // @ts-ignore
-      num = num + arr[i] * weight_factor[i]
-    }
-
-    // 获取余数
-    let resisue = num % 11
-    let last_no = check_code[resisue]
-
-    // 格式的正则
-    // 正则思路
-    /*
-    第一位不可能是0
-    第二位到第六位可以是0-9
-    第七位到第十位是年份，所以七八位为19或者20
-    十一位和十二位是月份，这两位是01-12之间的数值
-    十三位和十四位是日期，是从01-31之间的数值
-    十五，十六，十七都是数字0-9
-    十八位可能是数字0-9，也可能是X
-    */
-    let idcard_patter = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/
-
-    // 判断格式是否正确
-    let format = idcard_patter.test(value)
-
-    // 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
-    if (!(last === last_no && format)) {
+    if (/^-?\d+\.?\d+$/.test(value)) {
+      value = Number(value)
+      if (value > 180 || value < -180) {
+        errInfo = '经度的范围为[-180, 180]'
+      }
+    } else {
       errInfo = '格式不正确'
     }
   }
@@ -135,16 +31,94 @@ const idCard = (value: string | number, options?) => {
   return errInfo
 }
 
-// 座机
-const tel = (value: string | number, { multiple = true }) => {
+// 纬度
+const lat = (value: string | number, options?) => {
   value = value.toString()
-  const regex = multiple ? /^[+\-;\d]*$/ : /^[+\-\d]*$/
-  const length = multiple ? 50 : 20
+  let errInfo = ''
+  if (notEmpty(value)) {
+    if (/^-?\d+\.?\d+$/.test(value)) {
+      value = Number(value)
+      if (value > 90 || value < -90) {
+        errInfo = '纬度的范围为[-90, 90]'
+      }
+    } else {
+      errInfo = '格式不正确'
+    }
+  }
+
+  return errInfo
+}
+
+// 手机
+const phone = (value: string | number) => {
+  value = value.toString()
+  let errInfo = ''
+  if (notEmpty(value) && !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value)) {
+    errInfo = '格式不正确'
+  }
+
+  return errInfo
+}
+
+// url
+const url = (value: string) => {
+  let errInfo = ''
+  if (notEmpty(value) && !/^(((ht|f)tps?):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/.test(value)) {
+    errInfo = '格式不正确'
+  }
+
+  return errInfo
+}
+
+// base64
+const base64 = (value: string, { mediaType = '', scheme = true }: {
+  mediaType?: string,
+  scheme?: boolean
+} = {}) => {
+  let errInfo = ''
+  if (scheme && !value.startsWith(`data:${mediaType}`)) {
+    errInfo = '缺失scheme'
+  } else {
+    const data = scheme ? value.split(',')?.[1] : value
+    if (!(data && /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/.test(data))) {
+      errInfo = '格式不正确'
+    }
+  }
+  return errInfo
+}
+
+// 身份证
+const idCard = (value: string | number, options?) => {
+  value = value.toString()
+  let errInfo = ''
+  if (notEmpty(value) && !/^[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]$/.test(value)) {
+    errInfo = '格式不正确'
+  }
+
+  return errInfo
+}
+
+// 邮编
+const postcode = (value: string | number, options?) => {
+  value = value.toString()
+  let errInfo = ''
+  if (notEmpty(value) && !/^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[0-5]|8[013-6])\d{4}$/.test(value)) {
+    errInfo = '格式不正确'
+  }
+
+  return errInfo
+}
+
+// 座机
+const tel = (value: string | number, { multiple = true } = {}) => {
+  value = value.toString()
+  const regex = multiple ? /^((?:\d{3}-)?\d{8};?)+$|^((?:\d{4}-)?\d{7,8};?)+$/ : /^(?:\d{3}-)?\d{8}$|^(?:\d{4}-)?\d{7,8}$/
+  const maxLen = 50
 
   let errInfo = ''
   if (notEmpty(value)) {
-    if (value.length > length) {
-      errInfo = '不能超过' + length + '个字符'
+    if (value.length > maxLen) {
+      errInfo = '不能超过' + maxLen + '个字符'
     } else if (!regex.test(value)) {
       errInfo = '格式不正确' + (multiple ? '，如有多个请用英文分号隔开' : '')
     }
@@ -154,9 +128,9 @@ const tel = (value: string | number, { multiple = true }) => {
 }
 
 // 邮箱
-const email = (value: string, options?) => {
+const email = (value: string) => {
   let errInfo = ''
-  if (notEmpty(value) && !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value)) {
+  if (notEmpty(value) && !/^[\u4e00-\u9fa5\dA-Za-z_-]+@[\dA-Za-z_-]+(\.[\dA-Za-z_-]+)+$/.test(value)) {
     errInfo = '格式不正确'
   }
 
@@ -164,13 +138,44 @@ const email = (value: string, options?) => {
 }
 
 // 长度
-const len = (value: string, [min, max]: [number, number]) => {
-  let errInfo = ''
+const len = (value: string,
+  options:
+    number |
+    [number | string | undefined, number | string | undefined] |
+    {
+      min?: number | string | undefined
+      max?: number | string | undefined
+    }
+) => {
+  let errInfo = '', target, min, max
+  if (Array.isArray(options)) {
+    min = options[0]
+    max = options[1]
+  } else if (typeof options === 'object') {
+    min = options.min
+    max = options.max
+  } else if (typeof options === 'number') {
+    target = options
+  }
+  if (typeof min === 'string' && min !== '-∞') {
+    throw Error(errPrefix + 'min仅支持留空(undefined)、\'-∞\'或指定具体数值')
+  }
+  if (typeof max === 'string' && max !== '+∞') {
+    throw Error(errPrefix + 'max仅支持留空(undefined)、\'+∞\'或指定具体数值')
+  }
+  if (typeof min === 'number' && typeof max === 'number' && max < min) {
+    throw Error(errPrefix + 'max不能小于min')
+  }
+  if (target === undefined && min === undefined && max === undefined) {
+    throw Error(errPrefix + '未指定任何校验条件')
+  }
   if (notEmpty(value)) {
     if (value.length > max) {
       errInfo = '不能超过' + max + '个字符'
     } else if (min && value.length < min) {
       errInfo = '不能低于' + min + '个字符'
+    } else if (notEmpty(target) && value.length !== target) {
+      errInfo = '字符数需为' + min
     }
   }
 
@@ -195,18 +200,18 @@ const int = (value: string | number, options?: string | {
       range = options
     }
     if (range) {
-      if (!/^[\[(](-?\d+|-∞),(-?\d+|\+∞)[\])]$/.test(range)) {
+      if (!/^[\[(](-?\d*|-∞),(-?\d*|\+∞)[\])]$/.test(range)) {
         throw Error(errPrefix + 'range参数格式不正确')
       }
       const [start, end] = range.substr(1, range.length - 2).split(',')
-      if (start !== '-∞') {
+      if (!['', '-∞'].includes(start)) {
         if (range.startsWith('(')) {
           greaterThan = start
         } else {
           min = start
         }
       }
-      if (end !== '+∞') {
+      if (!['', '+∞'].includes(end)) {
         if (range.endsWith(')')) {
           lessThan = end
         } else {
@@ -263,19 +268,18 @@ const decimal = (
       range = options
     }
     if (range) {
-      if (!/^[\[(](-?\d+\.?\d+|-∞),(-?\d+\.?\d+|\+∞)[\])]$/.test(range)) {
-        console.log(range)
+      if (!/^[\[(](-?\d*\.?\d*|-∞),(-?\d*\.?\d*|\+∞)[\])]$/.test(range)) {
         throw Error(errPrefix + 'range参数格式不正确')
       }
       const [start, end] = range.substr(1, range.length - 2).split(',')
-      if (start !== '-∞') {
+      if (!['', '-∞'].includes(start)) {
         if (range.startsWith('(')) {
           greaterThan = start
         } else {
           min = start
         }
       }
-      if (end !== '+∞') {
+      if (!['', '+∞'].includes(end)) {
         if (range.endsWith(')')) {
           lessThan = end
         } else {
@@ -321,14 +325,19 @@ const decimal = (
           const [minDecimalPlaces, maxDecimalPlaces] = decimalPlaces
           if (maxDecimalPlaces < minDecimalPlaces) {
             throw Error(errPrefix + 'decimalPlaces的上限不能小于下限')
-          } else if (maxDecimalPlaces === minDecimalPlaces) {
-            console.warn(errPrefix + 'decimalPlaces的上下限相同时，可以简写为一个数字')
           }
           if (notEmpty(maxDecimalPlaces)) {
+            if (maxDecimalPlaces < 0) {
+              throw Error(errPrefix + 'decimalPlaces的上限不能为负')
+            }
             if (decimalPart[1]?.length > maxDecimalPlaces) {
               errInfo = '最多' + maxDecimalPlaces + '位小数'
             }
-          } else if (notEmpty(minDecimalPlaces)) {
+          }
+          if (notEmpty(minDecimalPlaces)) {
+            if (minDecimalPlaces < 0) {
+              throw Error(errPrefix + 'decimalPlaces的下限不能为负')
+            }
             if (decimalPart[1]?.length < minDecimalPlaces) {
               errInfo = '最少' + maxDecimalPlaces + '位小数'
             }
@@ -350,4 +359,7 @@ export {
   tel,
   email,
   idCard,
+  url,
+  postcode,
+  base64
 }

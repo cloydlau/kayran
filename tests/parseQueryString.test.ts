@@ -13,11 +13,27 @@ describe('parseQueryString', () => {
     addQueryPrefix: true
   })
 
+  const searchWithoutCode = qs.stringify({
+    s: 'search',
+  }, {
+    addQueryPrefix: true
+  })
+
   const hash = '#/' + qs.stringify({
     code: 'codeInHash',
     h: 'hash'
   }, {
     addQueryPrefix: true
+  })
+
+  const hashWithoutCode = '#/' + qs.stringify({
+    h: 'hash'
+  }, {
+    addQueryPrefix: true
+  })
+
+  it('字符串参数', () => {
+    expect(parseQueryString('a')).toEqual('')
   })
 
   it('mode参数错误', () => {
@@ -76,6 +92,74 @@ describe('parseQueryString', () => {
     })).toEqual({
       code: 'codeInSearch',
       s: 'search'
+    })
+  })
+
+  it('删除', () => {
+    expect(parseQueryString({
+      search,
+      hash,
+      key: 'code',
+      del: true
+    })).toEqual('codeInSearch')
+
+    expect(parseQueryString({
+      search,
+      hash,
+      key: 'h',
+      del: true
+    })).toEqual('hash')
+
+    expect(parseQueryString({
+      search,
+      hash,
+      key: 'code',
+      mode: 'history',
+      del: true
+    })).toEqual('codeInSearch')
+
+    expect(parseQueryString({
+      search,
+      hash,
+      key: 's',
+      mode: 'history',
+      del: true
+    })).toEqual('search')
+
+    expect(parseQueryString({
+      search,
+      hash,
+      del: true
+    })).toEqual({
+      code: 'codeInSearch',
+      h: 'hash'
+    })
+
+    expect(parseQueryString({
+      search: searchWithoutCode,
+      hash: hashWithoutCode,
+      del: true
+    })).toEqual({
+      h: 'hash'
+    })
+
+    expect(parseQueryString({
+      search: searchWithoutCode,
+      hash,
+      mode: 'history',
+      del: true
+    })).toEqual({
+      s: 'search'
+    })
+  })
+
+  it('如果search中没拿到code 则沿用hash中的code', () => {
+    expect(parseQueryString({
+      search: searchWithoutCode,
+      hash,
+    })).toEqual({
+      code: 'codeInHash',
+      h: 'hash'
     })
   })
 })

@@ -1,5 +1,3 @@
-const noop = _ => _
-
 /**
  * Parse simple path.
  */
@@ -14,7 +12,7 @@ function parsePath (path) {
   let segments = path.split('.')
   return function (obj) {
     for (let i = 0; i < segments.length; i++) {
-      if (!obj) { return }
+      //if (!obj) { return }
       obj = obj[segments[i]]
     }
     return obj
@@ -31,10 +29,8 @@ export default function getPropByPath (obj: object, exp?: string) {
   if (getter) {
     return getter(obj)
   } else {
-    console.warn(
-      `Failed watching path: "${exp}" ` +
+    throw Error(`Failed watching path: "${exp}" ` +
       'Watcher only accepts simple dot-delimited paths. ' +
-      'For full control, use a function instead.'
-    )
+      'For full control, use a function instead.')
   }
 }

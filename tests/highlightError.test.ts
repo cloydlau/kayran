@@ -1,5 +1,8 @@
 import highlightError from '../src/highlightError'
 
-afterAll(() => {
-  highlightError('.jest-lite-report__status--fail')
-})
+/*afterAll(() => {
+  setTimeout(() => {
+    const selector = '.jest-lite-report__status--fail'
+    document.querySelector(selector) ? highlightError(selector) : alert('测试通过')
+  }, 200)
+})*/
