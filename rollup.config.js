@@ -6,8 +6,9 @@ import babel from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
 import { terser } from 'rollup-plugin-terser'
 import serve from 'rollup-plugin-serve'
-//import json from '@rollup/plugin-json'
+import json from '@rollup/plugin-json'
 import livereload from 'rollup-plugin-livereload'
+import sass from 'rollup-plugin-sass'
 
 const path = require('path')
 const fs = require('fs')
@@ -18,7 +19,7 @@ function getInputs (dir = '') {
   let files = fs.readdirSync(resolve(dir))
   const entries = files.reduce((ret, item) => {
     const itemPath = path.join(dir, item)
-    if (itemPath.endsWith('.ts') || itemPath.endsWith('.js')) {
+    if (itemPath.endsWith('.ts')) {
       const [name] = item.split('.')
       ret[name] = resolve(`${itemPath}`)
     }
@@ -42,7 +43,8 @@ export default Object.keys(getInputs()).map(name => ({
     nodeResolve(),
     commonjs(), // 应该用在其他插件转换你的模块之前 - 这是为了防止其他插件的改变破坏 CommonJS 的检测
     typescript(),
-    //json(),
+    sass(),
+    json(),
     ...process.env.NODE_ENV === 'development' ? [
       serve({
         open: true,
