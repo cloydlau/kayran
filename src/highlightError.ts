@@ -35,7 +35,8 @@ export default (selectors: string | object = '.el-form .el-form-item.is-error') 
     // 视图滚动至校验失败的第一个表单项
     if (errFormItems[0] && !elementInView(errFormItems[0])) {
       errFormItems[0].scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
+        block: 'center'
       })
     }
     // 对所有校验失败的表单项产生震动效果

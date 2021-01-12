@@ -3,7 +3,3 @@
  */
 
 import loadStyle from '../src/loadStyle'
-
-it('loadStyle', () => {
-
-})
