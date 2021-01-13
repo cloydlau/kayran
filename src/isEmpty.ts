@@ -1,5 +1,5 @@
 //import isPlainObject from 'lodash/isPlainObject'
-import { isPlainObject } from 'lodash'
+import { isPlainObject } from 'lodash-es'
 
 export default function isEmpty (v): boolean {
   return {

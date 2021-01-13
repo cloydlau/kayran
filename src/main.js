@@ -2,32 +2,32 @@ import '../tests/getPropByPath.test'
 import '../tests/isEllipsis.test'
 import '../tests/isEmpty.test'
 import '../tests/jsonToFormData.test'
+import '../tests/loadLink.test'
 import '../tests/loadScript.test'
 import '../tests/loadStyle.test'
 import '../tests/paramFilter.test'
 import '../tests/parseQueryString.test'
 import '../tests/typeOf.test'
 import '../tests/validator.test'
-
 import loadStyle from './loadStyle'
-import highlightError from '../src/highlightError'
+import highlightError from './highlightError'
 
 loadStyle(`
-    .jest-lite-report__summary-status {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      font-size: 1.5rem;
-      font-weight: bold;
-      backdrop-filter: blur(3px);
-      padding: 2rem;
-    }
-    
-    .jest-lite-report {
-      padding-top: 6rem;
-    }
-  `)
+  .jest-lite-report__summary-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    backdrop-filter: blur(3px);
+    padding: 2rem;
+  }
+  
+  .jest-lite-report {
+    padding-top: 6rem;
+  }
+`)
 
 let promise
 prettify.toHTML(promise = run(), document.body)

@@ -5,22 +5,22 @@
 import isEllipsis from '../src/isEllipsis'
 import loadStyle from '../src/loadStyle'
 
-beforeEach(() => {
-  loadStyle(`
-     .ellipsis {
-       text-overflow: ellipsis;
-       white-space: normal;
-       word-break: break-all;
-       display: -webkit-box;
-       -webkit-box-orient: vertical;
-       -webkit-line-clamp: 1;
-       overflow: hidden;
-       line-height: normal;
-     }
-  `)
-})
-
 describe('isEllipsis', () => {
+  beforeEach(async () => {
+    await loadStyle(`
+      .ellipsis {
+        text-overflow: ellipsis;
+        white-space: normal;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        line-height: normal;
+      }
+  `)
+  })
+
   it('false', () => {
     const div = document.createElement('div')
     div.className = 'ellipsis'

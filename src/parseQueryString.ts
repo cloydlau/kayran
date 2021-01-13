@@ -1,4 +1,4 @@
-import qs from 'qs'
+import { parse } from 'qs'
 
 enum Mode {
   history = 'history',
@@ -42,14 +42,14 @@ export default function parseQueryString (config?: string | {
   hash = hash || window.location.hash
 
   function parseSearch () {
-    return qs.parse(search, { ignoreQueryPrefix: true })
+    return parse(search, { ignoreQueryPrefix: true })
   }
 
   function parseHash () {
     const questionMarkIndex = hash.indexOf('?')
     hash = hash.substring(questionMarkIndex)
     if (hash) {
-      let result = qs.parse(hash, { ignoreQueryPrefix: true })
+      let result = parse(hash, { ignoreQueryPrefix: true })
       if (search.includes('code=')) {
         result.code = parseSearch().code //如果search中没拿到code 则沿用hash中的code
       }
