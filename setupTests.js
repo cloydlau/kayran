@@ -1,5 +1,5 @@
-function FormDataMock () {
+/*function FormDataMock () {
   this.append = jest.fn()
 }
 
-global.FormData = FormDataMock
+global.FormData = FormDataMock*/

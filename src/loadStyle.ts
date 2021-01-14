@@ -1,6 +1,6 @@
 /**
  * @param {string|object} innerText - style标签的innerText 或传对象指定style的各项属性
- * @return {promise}
+ * @return {Promise<Element>}
  */
 export default function (innerText: string | {
   innerText: string

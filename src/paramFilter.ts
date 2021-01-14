@@ -1,6 +1,7 @@
 //import isPlainObject from 'lodash/isPlainObject'
 //import cloneDeep from 'lodash/cloneDeep'
-import { isPlainObject, cloneDeep } from 'lodash-es'
+//import { isPlainObject, cloneDeep } from 'lodash-es' // for prod
+import { isPlainObject, cloneDeep } from 'lodash' // for test
 
 /**
  * @param {object} param - 需要过滤的对象

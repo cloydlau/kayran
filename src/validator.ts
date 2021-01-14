@@ -231,7 +231,7 @@ const int = (value: string | number, options?: string | {
       range = options
     }
     if (!positiveSign && typeof value === 'number') {
-      console.warn(errPrefix + 'positiveSign仅对字符串生效')
+      process.env.NODE_ENV === 'production' && console.warn(errPrefix + 'positiveSign仅对字符串生效')
     }
     if (range) {
       if (!/^[\[(](-?\d*|-∞),(-?\d*|\+∞)[\])]$/.test(range)) {

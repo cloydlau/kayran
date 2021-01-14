@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import loadScript from '../src/loadScript'
 
 describe('loadScript', () => {

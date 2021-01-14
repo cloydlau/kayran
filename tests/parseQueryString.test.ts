@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import parseQueryString from '../src/parseQueryString'
 import qs from 'qs'
 

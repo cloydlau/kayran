@@ -1,5 +1,6 @@
 //import isPlainObject from 'lodash/isPlainObject'
-import { isPlainObject } from 'lodash-es'
+//import { isPlainObject } from 'lodash-es' // for prod
+import { isPlainObject } from 'lodash' // for test
 
 export default function isEmpty (v): boolean {
   return {
@@ -7,7 +8,7 @@ export default function isEmpty (v): boolean {
       v === null ||
       v instanceof Array && v.length === 0 ||
       isPlainObject(v) && Object.getOwnPropertyNames(v).length === 0,
-    number: () => isNaN(v),
+    number: () => Number.isNaN(v),
     string: () => v === '',
     undefined: () => true,
     boolean: () => v === false,
