@@ -1,13 +1,16 @@
-/**
- * @jest-environment jsdom
- */
+import 'expect-puppeteer'
 
 import isEllipsis from '../src/isEllipsis'
 import loadStyle from '../src/loadStyle'
 
+const wait = promise => promise
+.then(res => [res, null])
+.catch(err => [null, err])
+
 describe('isEllipsis', () => {
-  beforeEach(async () => {
-    await loadStyle(`
+  beforeAll(async () => {
+    /*await page.waitForFunction(async username => {
+      await loadStyle(`
       .ellipsis {
         text-overflow: ellipsis;
         white-space: normal;
@@ -18,16 +21,28 @@ describe('isEllipsis', () => {
         overflow: hidden;
         line-height: normal;
       }
-  `)
+    `).then(() => {
+        console.log('then')
+      }).catch(() => {
+        console.log('catch')
+      }).finally(() => {
+        console.log('finally')
+      })
+    })*/
   })
 
-  it('false', () => {
-    const div = document.createElement('div')
-    div.className = 'ellipsis'
-    div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
-    document.body.appendChild(div)
+  it.only('false', async () => {
+    const [res, err] = await wait(page.waitForFunction(() => {
+      const div = document.createElement('div')
+      div.className = 'ellipsis'
+      div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
+      document.body.appendChild(div)
+      return isEllipsis(div)
+    }))
+    console.log('err', err)
+    console.log('res', res)
 
-    expect(isEllipsis(div)).toEqual(false)
+    expect(err).toBeFalsy()
   })
 
   it('true', () => {
@@ -37,6 +52,6 @@ describe('isEllipsis', () => {
     document.body.appendChild(div)
     div.style.width = '50px'
 
-    expect(isEllipsis(div)).toEqual(true)
+    expect(isEllipsis(div)).toBeTruthy()
   })
 })

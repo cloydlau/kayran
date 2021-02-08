@@ -137,7 +137,17 @@ loadScript('https://cdn.jsdelivr.net/npm/vue/dist/vue.js').then(e => {
 
 ### loadStyle / 动态加载css
 
+```js
+import { loadStyle } from 'kayran'
 
+/**
+ * @param {string|object} innerText - style标签的innerText 或传对象指定style的各项属性
+ * @return {Promise<Element>}
+ */
+loadStyle('https://cdn.jsdelivr.net/npm/vue/dist/vue.js').then(e => {
+  console.log(Vue)
+})
+```
 
 <br/>
 
