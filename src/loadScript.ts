@@ -1,11 +1,11 @@
 /**
  * @param {string|object} src - script标签的src 或传对象指定script的各项属性
- * @return {Promise<Element>}
+ * @return {Promise<ELEMENT>}
  */
 export default function (src: string | {
   src: string
   [others: string]: any
-}): Promise<Element> {
+}): Promise<ELEMENT> {
   return new Promise((resolve, reject) => {
     if (!src || (typeof src === 'object' && !src.src)) {
       reject('src为空')

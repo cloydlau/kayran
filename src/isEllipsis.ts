@@ -1,4 +1,4 @@
-export default function isEllipsis (dom): boolean {
+export default (dom: ELEMENT): boolean => {
   let checkDom = dom.cloneNode(), parent, flag
   checkDom.style.width = dom.offsetWidth + 'px'
   checkDom.style.height = dom.offsetHeight + 'px'

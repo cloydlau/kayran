@@ -1,3 +1,3 @@
-export default (promise: Promise<any>) => promise
-.then(res => [res, null])
-.catch(err => [null, err])
+export default (promise: Promise<any>): Promise<any[]> => promise
+.then(res => [res])
+.catch(err => [undefined, err])

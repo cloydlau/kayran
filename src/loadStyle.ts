@@ -1,11 +1,11 @@
 /**
  * @param {string|object} innerText - style标签的innerText 或传对象指定style的各项属性
- * @return {Promise<Element>}
+ * @return {Promise<ELEMENT>}
  */
 export default function (innerText: string | {
   innerText: string
   [others: string]: any
-}): Promise<Element> {
+}): Promise<ELEMENT> {
   return new Promise((resolve, reject) => {
     if (!innerText || (typeof innerText === 'object' && !innerText.innerText)) {
       reject('innerText为空')

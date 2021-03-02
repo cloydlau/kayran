@@ -8,12 +8,12 @@ import { isPlainObject, cloneDeep } from 'lodash' // for test
  * @param {function} exclusion - 过滤规则 返回true表示需要滤掉 默认实现：```v => [NaN, null, undefined].includes(v) || v.startsWith('__')```
  * @return {object} 过滤后的对象
  */
-export default function paramFilter (
+export default (
   param: object,
   exclusion:
     (value: any, key: any) => boolean =
     (v, k) => [NaN, null, undefined].includes(v) || k.startsWith('__')
-) {
+): object => {
   if (param instanceof FormData) {
     return param
   }

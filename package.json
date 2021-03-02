@@ -1,6 +1,6 @@
 {
   "name": "kayran",
-  "displayName": "工具函数合集",
+  "displayName": "",
   "version": "0.0.1",
   "description": "A collection of utilities",
   "author": "cloydlau",
@@ -35,7 +35,7 @@
     "jest-dev-server": "4",
     "jest-html-reporter": "3",
     "jest-puppeteer": "4",
-    "puppeteer": "7",
+    "puppeteer": "8",
     "rollup": "2",
     "rollup-plugin-livereload": "2",
     "rollup-plugin-sass": "1",

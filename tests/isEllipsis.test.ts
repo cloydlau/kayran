@@ -1,55 +1,40 @@
 import isEllipsis from '../src/isEllipsis'
 import loadStyle from '../src/loadStyle'
 import awaitFor from '../src/awaitFor'
+import fn2str from './fn2str'
 
-const isEllipsisStr = isEllipsis.toString()
-.replace(/\/\* istanbul ignore next \*\//g, '')
-.replace(/cov_mwhopiwvn\(\)\..+]\+\+;/g, '')
-.replace(/cov_mwhopiwvn\(\)\..+]\+\+,/g, '')
+const isEllipsisStr = fn2str(isEllipsis)
+const loadStyleStr = fn2str(loadStyle)
+
+const style = `
+  .ellipsis {
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    line-height: normal;
+  }
+`
 
 describe('isEllipsis', () => {
-  beforeAll(async () => {
-    const init = () => loadStyle(`
-      .ellipsis {
-        text-overflow: ellipsis;
-        white-space: normal;
-        word-break: break-all;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-        line-height: normal;
-      }
-    `)
-    // node环境
-    if (page) {
-      await page.waitForFunction(async username => {
-        await init()
-        .then(() => {
-          console.log('then')
-        }).catch(() => {
-          console.log('catch')
-        }).finally(() => {
-          console.log('finally')
-        })
-      })
-    }
-    // 浏览器环境
-    else {
-      await init()
-    }
-  })
-
   describe('不限宽', () => {
     it('无样式', async () => {
       if (page) {
-        const [res, err] = await awaitFor(page.waitForFunction(isEllipsisStr => {
+        const [res, err] = await awaitFor(page.evaluate((isEllipsisStr, loadStyleStr, style) => {
+          new Function('return ' + loadStyleStr)()(style)
           const div = document.createElement('div')
           div.className = 'ellipsis'
           div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
           document.body.appendChild(div)
           return new Function('return ' + isEllipsisStr)()(div).toString()
-        }, {}, isEllipsisStr))
+        }, isEllipsisStr, loadStyleStr, style))
+
+        if (err) {
+          console.log(err)
+        }
 
         expect({
           'false': false,
@@ -60,16 +45,17 @@ describe('isEllipsis', () => {
 
     it('有样式', async () => {
       if (page) {
-        const [res, err] = await awaitFor(page.waitForFunction(isEllipsisStr => {
+        const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.className = 'ellipsis'
           div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
           document.body.appendChild(div)
           return new Function('return ' + isEllipsisStr)()(div).toString()
-        }, {}, isEllipsisStr))
+        }, isEllipsisStr))
 
-        //console.log('res', res)
-        //console.log('err', err)
+        if (err) {
+          console.log(err)
+        }
 
         expect({
           'false': false,
@@ -82,13 +68,17 @@ describe('isEllipsis', () => {
   describe('限宽', () => {
     it('无样式', async () => {
       if (page) {
-        const [res, err] = await awaitFor(page.waitForFunction(isEllipsisStr => {
+        const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
           document.body.appendChild(div)
           div.style.width = '50px'
           return new Function('return ' + isEllipsisStr)()(div).toString()
-        }, {}, isEllipsisStr))
+        }, isEllipsisStr))
+
+        if (err) {
+          console.log(err)
+        }
 
         expect({
           'false': false,
@@ -99,14 +89,18 @@ describe('isEllipsis', () => {
 
     it('有样式', async () => {
       if (page) {
-        const [res, err] = await awaitFor(page.waitForFunction(isEllipsisStr => {
+        const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.className = 'ellipsis'
           div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
           document.body.appendChild(div)
           div.style.width = '50px'
           return new Function('return ' + isEllipsisStr)()(div).toString()
-        }, {}, isEllipsisStr))
+        }, isEllipsisStr))
+
+        if (err) {
+          console.log(err)
+        }
 
         expect({
           'false': false,

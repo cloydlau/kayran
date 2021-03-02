@@ -1,6 +1,6 @@
 import paramFilter from './paramFilter'
 
-export default function jsonToFormData (data: object) {
+export default (data: object): FormData => {
   const formData = new FormData()
   data = paramFilter(data)
   for (let k in data) {

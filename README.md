@@ -30,9 +30,31 @@ module.exports = {
 
 <br/>
 
-## Features
+## awaitFor / 以优雅方式书写await
 
-### <a id="getPropByPath">getPropByPath</a> / 支持多层的属性访问
+```js
+import { awaitFor } from 'kayran'
+
+/**
+ * @param {Promise} 需要包装的Promise
+ * @return {object}
+ *         {any} resolve - Promise.prototype.then返回的结果
+ *         {any} reject - Promise.prototype.catch返回的结果
+ */
+const [res] = await awaitFor(new Promise((resolve, reject) => {
+  resolve('res')
+}))
+console.log(res) // 'res'
+
+const [, err] = await awaitFor(new Promise((resolve, reject) => {
+  reject('err')
+}))
+console.log(err) // 'err'
+```
+
+<br/>
+
+## getPropByPath / 对象深层属性访问
 
 ```js
 import { getPropByPath } from 'kayran'
@@ -54,13 +76,13 @@ getPropByPath(obj) // 返回obj本身
 
 <br/>
 
-### highlightError / 高亮提示错误（可用于校验失败的表单项）
+## highlightError / 高亮提示错误（可用于校验失败的表单项）
 
 ```js
 import { highlightError } from 'kayran'
 
 /**
- * @param {node | string} 错误元素或其选择器 默认为'.el-form .el-form-item.is-error'
+ * @param {string | Element | NodeList} 错误元素或其选择器 默认为'.el-form .el-form-item.is-error'
  */
 highlightError()
 ```
@@ -69,13 +91,13 @@ highlightError()
 
 <br/>
 
-### isEllipsis / 判断dom是否触发溢出省略（text-overflow: ellipsis）
+## isEllipsis / 判断dom是否触发溢出省略（text-overflow: ellipsis）
 
 ```js
 import { isEllipsis } from 'kayran'
 
 /**
- * @param {node} 需要判断的元素
+ * @param {Element} 需要判断的元素
  * @return {boolean} 是否触发溢出省略
  */
 isEllipsis(document.querySelector('.text'))
@@ -83,7 +105,7 @@ isEllipsis(document.querySelector('.text'))
 
 <br/>
 
-### isEmpty & notEmpty / 判空 & 判非空
+## isEmpty & notEmpty / 判空 & 判非空
 
 notEmpty() 等同于 !isEmpty()
 
@@ -101,14 +123,14 @@ isEmpty([]) // true
 
 <br/>
 
-### jsonToFormData / json转formData
+## jsonToFormData / json转FormData
 
 ```js
 import { jsonToFormData } from 'kayran'
 
 /**
  * @param {object} 需要转换的对象
- * @return {formData} 结果
+ * @return {FormData} 结果
  */
 const formData = jsonToFormData({
   a: 1
@@ -119,14 +141,28 @@ formData.get('a') // 1
 
 <br/>
 
-### loadScript / 动态加载js
+## loadLink / 动态加载link
+
+```js
+import { loadLink } from 'kayran'
+
+/**
+ * @param {string} src - 脚本url
+ * @return {Promise}
+ */
+await loadLink('https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css')
+```
+
+<br/>
+
+## loadScript / 动态加载js
 
 ```js
 import { loadScript } from 'kayran'
 
 /**
  * @param {string} src - 脚本url
- * @return {promise}
+ * @return {Promise}
  */
 loadScript('https://cdn.jsdelivr.net/npm/vue/dist/vue.js').then(e => {
   console.log(Vue)
@@ -135,7 +171,7 @@ loadScript('https://cdn.jsdelivr.net/npm/vue/dist/vue.js').then(e => {
 
 <br/>
 
-### loadStyle / 动态加载css
+## loadStyle / 动态加载style
 
 ```js
 import { loadStyle } from 'kayran'
@@ -144,14 +180,26 @@ import { loadStyle } from 'kayran'
  * @param {string|object} innerText - style标签的innerText 或传对象指定style的各项属性
  * @return {Promise<Element>}
  */
-loadStyle('https://cdn.jsdelivr.net/npm/vue/dist/vue.js').then(e => {
-  console.log(Vue)
-})
+await loadStyle('https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
 ```
 
 <br/>
 
-### parseQueryString / 获取当前url某个查询参数的值
+## paramFilter / 接口参数过滤器
+
+```js
+import { paramFilter } from 'kayran'
+
+/**
+ * @param {object} innerText - style标签的innerText 或传对象指定style的各项属性
+ * @return {Promise<Element>}
+ */
+await loadStyle('https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
+```
+
+<br/>
+
+## parseQueryString / 获取当前url某个查询参数的值
 
 ```js
 import { parseQueryString } from 'kayran'
@@ -179,7 +227,7 @@ const { code } = parseQueryString()
 
 <br/>
 
-### validator / 输入校验
+## validator / 输入校验
 
 ```js
 import { validator } from 'kayran'
@@ -217,7 +265,7 @@ if (errMsg) {
 
 <br/>
 
-### typeOf / 获取变量的精确类型
+## typeOf / 获取变量的精确类型
 
 动机：原生js的typeof等类型检测手段都存在各种缺陷
 
@@ -233,7 +281,7 @@ typeOf(1) // 'number'
 
 <br/>
 
-### isBase64 / 判断是否为base64编码字符串
+## isBase64 / 判断是否为base64编码字符串
 
 ```js
 import { isBase64 } from 'kayran'
@@ -250,3 +298,5 @@ isBase64(1, {
   scheme: false
 }) // false
 ```
+
+<br/>
