@@ -245,7 +245,7 @@ const int = (value: string | number, options?: string | {
     const numberValue = Number(value)
     const stringValue = value.toString()
     switch (true) {
-      case (!((positiveSign ? /^[\+\-]?\d+$/ : /^\-?\d+$/).test(stringValue))):
+      case (!((positiveSign ? /^[+\-]?\d+$/ : /^\-?\d+$/).test(stringValue))):
         errInfo = '需为整数'
         break
       case (notEmpty(min) && numberValue < min) :
