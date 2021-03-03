@@ -1,5 +1,5 @@
 import isEmpty from './isEmpty'
 
-export default function notEmpty (v): boolean {
-  return !isEmpty(v)
+export default (value: any): boolean => {
+  return !isEmpty(value)
 }

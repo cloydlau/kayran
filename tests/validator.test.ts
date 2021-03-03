@@ -10,7 +10,7 @@ import {
   idCard,
   url,
   postcode,
-  base64
+  base64,
 } from '../src/validator'
 
 describe('validator', () => {

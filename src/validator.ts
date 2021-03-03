@@ -12,9 +12,8 @@ import isEmpty from './isEmpty'
  *
  * deprecated: 但是1.0传入方法后自动变成1
  */
-7
-// 经度
-const lng = (value: string | number, options?): string => {
+
+const lng = (value: string | number): string => {
   let errInfo = ''
   if (typeof value === 'number' && Number.isNaN(value)) {
     errInfo = '格式不正确'
@@ -33,8 +32,7 @@ const lng = (value: string | number, options?): string => {
   return errInfo
 }
 
-// 纬度
-const lat = (value: string | number, options?): string => {
+const lat = (value: string | number): string => {
   let errInfo = ''
   if (typeof value === 'number' && Number.isNaN(value)) {
     errInfo = '格式不正确'
@@ -53,7 +51,6 @@ const lat = (value: string | number, options?): string => {
   return errInfo
 }
 
-// 手机
 const phone = (value: string | number): string => {
   let errInfo = ''
   if (typeof value === 'number' && Number.isNaN(value)) {
@@ -68,7 +65,6 @@ const phone = (value: string | number): string => {
   return errInfo
 }
 
-// url
 const url = (value: string): string => {
   let errInfo = ''
   if (notEmpty(value)) {
@@ -80,7 +76,6 @@ const url = (value: string): string => {
   return errInfo
 }
 
-// base64
 const base64 = (value: string, { mediaType = '', scheme = true }: {
   mediaType?: string,
   scheme?: boolean
@@ -100,8 +95,7 @@ const base64 = (value: string, { mediaType = '', scheme = true }: {
   return errInfo
 }
 
-// 身份证
-const idCard = (value: string | number, options?): string => {
+const idCard = (value: string | number): string => {
   let errInfo = ''
   if (typeof value === 'number' && Number.isNaN(value)) {
     errInfo = '格式不正确'
@@ -115,8 +109,7 @@ const idCard = (value: string | number, options?): string => {
   return errInfo
 }
 
-// 邮编
-const postcode = (value: string | number, options?): string => {
+const postcode = (value: string | number): string => {
   let errInfo = ''
   if (typeof value === 'number' && Number.isNaN(value)) {
     errInfo = '格式不正确'
@@ -130,7 +123,6 @@ const postcode = (value: string | number, options?): string => {
   return errInfo
 }
 
-// 座机
 const tel = (value: string | number, { multiple = true } = {}): string => {
   const regex = multiple ? /^((?:\d{3}-)?\d{8};?)+$|^((?:\d{4}-)?\d{7,8};?)+$/ : /^(?:\d{3}-)?\d{8}$|^(?:\d{4}-)?\d{7,8}$/
   const maxLen = 50
@@ -150,7 +142,6 @@ const tel = (value: string | number, { multiple = true } = {}): string => {
   return errInfo
 }
 
-// 邮箱
 const email = (value: string): string => {
   let errInfo = ''
   if (!/^[\u4e00-\u9fa5\dA-Za-z_-]+@[\dA-Za-z_-]+(\.[\dA-Za-z_-]+)+$/.test(value)) {
@@ -160,7 +151,6 @@ const email = (value: string): string => {
   return errInfo
 }
 
-// 长度
 const len = (value: string,
   options:
     number |
@@ -214,7 +204,6 @@ const len = (value: string,
   return errInfo
 }
 
-// 整数
 const int = (value: string | number, options?: string | {
   range?: string
   positiveSign?: boolean
@@ -285,7 +274,6 @@ const int = (value: string | number, options?: string | {
   return errInfo
 }
 
-// 小数
 const decimal = (
   value: string | number,
   options?: string | {
@@ -401,5 +389,5 @@ export {
   idCard,
   url,
   postcode,
-  base64
+  base64,
 }

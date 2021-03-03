@@ -22,7 +22,7 @@ const style = `
 describe('isEllipsis', () => {
   describe('不限宽', () => {
     it('无样式', async () => {
-      if (page) {
+      if (!window.navigator.userAgent) {
         const [res, err] = await awaitFor(page.evaluate((isEllipsisStr, loadStyleStr, style) => {
           new Function('return ' + loadStyleStr)()(style)
           const div = document.createElement('div')
@@ -44,7 +44,7 @@ describe('isEllipsis', () => {
     })
 
     it('有样式', async () => {
-      if (page) {
+      if (!window.navigator.userAgent) {
         const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.className = 'ellipsis'
@@ -67,7 +67,7 @@ describe('isEllipsis', () => {
 
   describe('限宽', () => {
     it('无样式', async () => {
-      if (page) {
+      if (!window.navigator.userAgent) {
         const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.appendChild(document.createTextNode('这里是一段文字~~~~~~~~~~~'))
@@ -88,7 +88,7 @@ describe('isEllipsis', () => {
     })
 
     it('有样式', async () => {
-      if (page) {
+      if (!window.navigator.userAgent) {
         const [res, err] = await awaitFor(page.evaluate(isEllipsisStr => {
           const div = document.createElement('div')
           div.className = 'ellipsis'

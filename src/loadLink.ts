@@ -1,11 +1,11 @@
 /**
  * @param {string | object} href - link标签的href 或传对象指定link的各项属性
- * @return {Promise<ELEMENT>}
+ * @return {Promise<Element>}
  */
 export default function (href: string | {
   href: string
   [others: string]: any
-}): Promise<ELEMENT> {
+}): Promise<Element> {
   return new Promise((resolve, reject) => {
     if (!href || (typeof href === 'object' && !href.href)) {
       reject('href为空')

@@ -1,6 +1,6 @@
 import './validator.scss'
 
-export default (selectors: string | ELEMENT | NodeList = '.el-form .el-form-item.is-error'): void => {
+export default (selectors: string | Element | NodeList = '.el-form .el-form-item.is-error'): void => {
   function elementInView (element) {
     const rect = element.getBoundingClientRect()
     const yInView = rect.top < window.innerHeight && rect.bottom > 0
