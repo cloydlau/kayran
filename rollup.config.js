@@ -36,7 +36,7 @@ export default Object.keys(getInputs()).map(name => ({
       name,
       file: `lib/${name}.umd.min.js`,
       format: 'umd',
-      sourcemap: true,
+      sourcemap: false,
     },
   ],
   plugins: [
